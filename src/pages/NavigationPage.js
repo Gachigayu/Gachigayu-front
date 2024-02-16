@@ -30,12 +30,16 @@ export default function NavigationPage() {
   const [navigateFlag, setNavigateFlag] = useRecoilState(navigateState);
   const [pathData, setPathData] = useState(null);
   useEffect(() => {
+    console.log("SEND");
     (async () => {
+      console.log("A1");
       const path_ = `/api/promenades/${param_.id}/routes`;
       const token = getAccessToken();
+      console.log("A2");
       try {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         const response = await axios.get(path_);
+        console.log("A3");
         console.log("PPPPP", response.data);
         console.log("path data is ", response.data.routes);
         const res = response.data.routes.map((p) => {
@@ -46,7 +50,7 @@ export default function NavigationPage() {
             tip: "",
           };
         });
-        console.log("res is>>", res);
+        console.log("A4 res is>>", res);
         setPathData(res);
       } catch (error) {
         console.log("empty or error");
