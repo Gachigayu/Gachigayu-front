@@ -36,6 +36,7 @@ export default function NavigationPage() {
       try {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         const response = await axios.get(path_);
+        console.log("PPPPP", response.data);
         console.log("path data is ", response.data.routes);
         const res = response.data.routes.map((p) => {
           return {
