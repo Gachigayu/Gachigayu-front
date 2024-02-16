@@ -115,8 +115,8 @@ const SliderListItem = ({
     console.log("path", path);
     console.log("location", data.location);
     setHighlight({
-      y: Number(data.location.longitude),
-      x: Number(data.location.latitude),
+      y: Number(data.location.latitude),
+      x: Number(data.location.longitude),
     });
     const res = path.data.routes.map((p) => {
       return {
