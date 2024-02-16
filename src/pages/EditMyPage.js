@@ -197,6 +197,8 @@ export default function EditMyPage() {
       const personalResponse = await axios.get(`/api/users`);
       if (personalResponse.data) {
         setData(personalResponse.data);
+        setName(personalResponse.data.name);
+        setId(personalResponse.data.accountId);
         if (personalResponse.data.profileImage) {
           // data.image
           console.log("file is ", personalResponse.data.profileImage);
@@ -223,18 +225,14 @@ export default function EditMyPage() {
     const profile = localStorage.getItem("profile"); // 다시 localStorage에서 img데이터 꺼내와서 변수에 저장해준다.
     const isVaild = JSON.parse(profile);
 
-    if (!isVaild) {
-      // undefined일때
-      console.log("no image");
-      return;
-    }
-
     // axios로 서버에 post 요청을 보내서 이미지를 저장해준다.
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     const formData = new FormData();
     formData.append("name", name);
     formData.append("accountId", id);
-    formData.append("profileImage", imgURL);
+    if (isVaild) {
+      formData.append("profileImage", imgURL);
+    }
     axios.post("/api/users", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
