@@ -46,6 +46,7 @@ export default function NavigationPage() {
             tip: "",
           };
         });
+        console.log("res is>>", res);
         setPathData(res);
       } catch (error) {
         console.log("empty or error");
