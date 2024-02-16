@@ -12,6 +12,7 @@ import StartModal from "../common/StartModal";
 import { useRecoilState } from "recoil";
 import { highlightState } from "../../store/map";
 import axios from "axios";
+import { pathState } from "../../store/path";
 
 const ListWrapper = styled.div`
   cursor: pointer;
@@ -108,12 +109,27 @@ const SliderListItem = ({
   const { openModal, closeModal } = useModal();
   const navigate = useNavigate();
   const [highlight, setHighlight] = useRecoilState(highlightState);
+  const [path, setPath] = useRecoilState(pathState);
 
   const changeToggle = (id) => {
     setHighlight({
       y: Number(data.location.longitude),
       x: Number(data.location.latitude),
     });
+    console.log(">><<");
+    (async () => {
+      const response = await axios.get(`/api/promenades/${id}/routes`);
+      setPath(
+        response.data.routes.map((route) => {
+          return {
+            pos: { y: route.location.longitude, x: route.location.latitude },
+            main_desc: route.description,
+            sub_desc: "",
+            tip: "",
+          };
+        })
+      );
+    })();
     if (toggleWalkPath === id) {
       setToggleWalkPath(null);
     } else {
