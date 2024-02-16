@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import watchLocation from "../hooks/watchLocation";
 import styled from "@emotion/styled";
 
@@ -53,6 +53,15 @@ export default function KakaoMap() {
   const [highlight, setHighlight] = useRecoilState(highlightState);
 
   const [iconSpotState, setIconSpotState] = useRecoilState(recoilIconSpotState);
+
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prev) => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const markerRef = useRef(null);
   useEffect(() => {
@@ -224,7 +233,7 @@ export default function KakaoMap() {
         new window.kakao.maps.LatLng(location.lat, location.lng)
       );
     }
-  }, [loading, location.lat, location.lng, locked]);
+  }, [loading, location.lat, location.lng, locked, timer]);
 
   const lock = () => {
     setMapState((prev) => ({ ...prev, locked: true }));
