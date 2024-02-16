@@ -119,7 +119,7 @@ export default function NavigationPage() {
       }
       setCPosIndex((prev) => prev + 1);
     }
-  }, [location.lat, location.lng]);
+  }, [location.lat, location.lng, pathData, cPosIndex]);
 
   useEffect(() => {
     if (achievement) return;
