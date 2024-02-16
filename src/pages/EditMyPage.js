@@ -240,7 +240,7 @@ export default function EditMyPage() {
     });
 
     imgRef.current.setAttribute("src", isVaild);
-    window.alert("프로필 이미지가 저장되었습니다!.");
+    window.alert("사용자 데이터가 업데이트되었습니다.");
   };
   const edit = () => {
     if (disabled) return;
