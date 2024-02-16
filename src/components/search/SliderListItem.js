@@ -108,12 +108,24 @@ const SliderListItem = ({
   const { openModal, closeModal } = useModal();
   const navigate = useNavigate();
   const [highlight, setHighlight] = useRecoilState(highlightState);
+  const [path, setPath] = useRecoilState(highlightState);
 
-  const changeToggle = (id) => {
+  const changeToggle = async (id) => {
+    const path = await axios.get(`/api/promenades/${id}/routes`);
     setHighlight({
       y: Number(data.location.longitude),
       x: Number(data.location.latitude),
     });
+    const res = path.data.routes.map((p) => {
+      return {
+        pos: { lat: p.latitude, lng: p.longitude },
+        main_desc: p.description,
+        sub_desc: "",
+        tip: "",
+      };
+    });
+    setPath(res);
+
     if (toggleWalkPath === id) {
       setToggleWalkPath(null);
     } else {
