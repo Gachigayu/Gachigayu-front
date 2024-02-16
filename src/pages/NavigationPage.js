@@ -30,17 +30,12 @@ export default function NavigationPage() {
   const [navigateFlag, setNavigateFlag] = useRecoilState(navigateState);
   const [pathData, setPathData] = useState(null);
   useEffect(() => {
-    console.log("SEND");
     (async () => {
-      console.log("A1");
       const path_ = `/api/promenades/${param_.id}/routes`;
       const token = getAccessToken();
-      console.log("A2");
       try {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         const response = await axios.get(path_);
-        console.log("A3");
-        console.log("PPPPP", response.data);
         console.log("path data is ", response.data.routes);
         const res = response.data.routes.map((p) => {
           return {
@@ -50,7 +45,6 @@ export default function NavigationPage() {
             tip: "",
           };
         });
-        console.log("A4 res is>>", res);
         setPathData(res);
       } catch (error) {
         console.log("empty or error");
@@ -94,8 +88,6 @@ export default function NavigationPage() {
   const id = params.id;
   const { location } = watchLocation();
 
-  const [timmer, setTimmer] = useState(0);
-
   const threshold = 0.01; // 10m
 
   useEffect(() => {
@@ -107,13 +99,6 @@ export default function NavigationPage() {
       pathData[cPosIndex + 1].pos.lat,
       pathData[cPosIndex + 1].pos.lng
     );
-
-    useEffect(() => {
-      const timer = setInterval(() => {
-        setTimmer((prev) => prev + 1);
-      }, 1000);
-      return () => clearInterval(timer);
-    }, []);
 
     if (distance_current_user < threshold) {
       if (cPosIndex === pathData.length - 2) {
@@ -128,7 +113,7 @@ export default function NavigationPage() {
       }
       setCPosIndex((prev) => prev + 1);
     }
-  }, [location.lat, location.lng, pathData, cPosIndex]);
+  }, [location.lat, location.lng]);
 
   useEffect(() => {
     if (achievement) return;
@@ -138,7 +123,7 @@ export default function NavigationPage() {
       { lat: location.lat, lng: location.lng },
       ...pathData.slice(cPosIndex + 1).map((p) => p.pos),
     ]);
-  }, [cPosIndex, location.lat, location.lng, pathData, navigateFlag]);
+  }, [cPosIndex, location.lat, location.lng]);
 
   let msgData = null;
   if (!pathData) {
