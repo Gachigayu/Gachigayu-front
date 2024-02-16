@@ -112,6 +112,8 @@ const SliderListItem = ({
 
   const changeToggle = async (id) => {
     const path = await axios.get(`/api/promenades/${id}/routes`);
+    console.log("path", path);
+    console.log("location", data.location);
     setHighlight({
       y: Number(data.location.longitude),
       x: Number(data.location.latitude),
@@ -124,6 +126,7 @@ const SliderListItem = ({
         tip: "",
       };
     });
+    console.log("res", res);
     setPath(res);
 
     if (toggleWalkPath === id) {
