@@ -126,7 +126,14 @@ export default function NavigationPage() {
   }, [cPosIndex, location.lat, location.lng]);
 
   let msgData = null;
-  if (cPosIndex == pathData.length - 1) {
+  if (!pathData) {
+    msgData = {
+      pos: { lat: location.lat, lng: location.lng },
+      main_desc: "경로를 불러오는 중입니다.",
+      sub_desc: "잠시만 기다려주세요.",
+      tip: "",
+    };
+  } else if (cPosIndex == pathData.length - 1) {
     msgData = {
       pos: { lat: location.lat, lng: location.lng },
       main_desc: "인증사진 촬영하기",
