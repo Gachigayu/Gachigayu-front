@@ -84,7 +84,7 @@ function RouteList() {
             <Route path="/navigation/:id" element={<NavigationPage />} />
           </Route>
           <Route element={<VerifyLayout />}>
-            <Route path="/verification" element={<VerifyPage />} />
+            <Route path="/verification/*" element={<VerifyPage />} />
             <Route path="/verify-success" element={<VerifySuccessPage />} />
             <Route path="/verify-fail" element={<VerifyFailPage />} />
           </Route>
