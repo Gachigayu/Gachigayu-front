@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import AchievementModal from "../components/AchievementModal";
 import { getAccessToken } from "../utils/token";
 import { calculateDistance } from "../utils/mapcalc";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const MapContainer = styled.div`
@@ -58,7 +59,8 @@ export default function NavigationPage() {
   const [doneDelay, setDoneDelay] = useState(null);
   const [achievement, setAchievement] = useState(false);
   const [showModal, setShowModal] = useState(true);
-
+  const params = useParams();
+  const id = params.id;
   const { location } = watchLocation();
 
   const threshold = 0.01; // 10m
@@ -76,7 +78,7 @@ export default function NavigationPage() {
       if (cPosIndex === pathData.length - 2) {
         setDoneDelay(5);
         setTimeout(() => {
-          navigate("/check-photo");
+          navigate(`/check-photo/${id}`);
         }, 5000);
         const interval = setInterval(() => {
           setDoneDelay((prev) => prev - 1);
@@ -108,26 +110,26 @@ export default function NavigationPage() {
     msgData = pathData[cPosIndex];
   }
   if (achievement) {
+    const FinishWalk = async (id) => {
+      const token = getAccessToken();
+      try {
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+        const response = await axios.post("/api/activities/finish", {
+          promenadeId: id,
+        });
+        console.log("user data is ", response.data);
+      } catch (error) {
+        console.log("empty or error");
+      }
+    };
     msgData = {
       pos: { lat: location.lat, lng: location.lng },
       main_desc: "도착!",
       sub_desc: destination_desc,
       tip: "",
     };
-    FinishWalk(1);
+    FinishWalk(id);
   }
-  const FinishWalk = async (id) => {
-    const token = getAccessToken();
-    try {
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      const response = await axios.post("/api/activities/finish", {
-        promenadeId: id,
-      });
-      console.log("user data is ", response.data);
-    } catch (error) {
-      console.log("empty or error");
-    }
-  };
 
   useEffect(() => {
     if (navigateFlag) {

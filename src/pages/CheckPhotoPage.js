@@ -5,6 +5,7 @@ import { ReactComponent as PhotoGuide } from "../assets/face_or_activity.svg";
 import { ReactComponent as AutoTake } from "../assets/auto_photo_par.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 
 function getDeviceStream(option) {
   if ("getUserMedia" in navigator.mediaDevices) {
@@ -55,6 +56,8 @@ const IconContainer = styled.div`
 export default function CheckPhotoPage() {
   const navigate = useNavigate();
   const videoRef = useRef(null);
+  const params = useParams();
+  const id = params.id;
   const takePhoto = () => {
     const video = videoRef.current;
     const canvas = document.createElement("canvas");
@@ -65,7 +68,7 @@ export default function CheckPhotoPage() {
     const data = canvas.toDataURL("image/png");
     localStorage.setItem("photo", data);
     stopStream();
-    navigate("/check-photo-done");
+    navigate(`/check-photo-done/${id}`);
   };
 
   useEffect(() => {

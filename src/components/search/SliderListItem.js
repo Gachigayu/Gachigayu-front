@@ -144,7 +144,7 @@ const SliderListItem = ({
       openModal(VerifyModal, {
         handleClose: closeModal,
         onSubmit: () => {
-          navigate("/verification");
+          navigate(`/verification/${data.id}`);
           closeModal();
         },
       });
@@ -153,7 +153,7 @@ const SliderListItem = ({
       openModal(StartModal, {
         handleClose: closeModal,
         onConfirm: () => {
-          navigate("/navigation");
+          navigate(`/navigation/${data.id}`);
           closeModal();
         },
       });

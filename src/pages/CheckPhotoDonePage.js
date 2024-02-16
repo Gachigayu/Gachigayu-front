@@ -55,13 +55,13 @@ const WarningTitle = styled.div`
   font-size: 1.2rem;
   font-weight: 500;
 `;
-export default function CheckPhotoDone() {
+export default function CheckPhotoDone({ id }) {
   const navigate = useNavigate();
   const [navigateFlag, setNavigateFlag] = useRecoilState(navigateState);
   const continueWalk = () => {
     console.log("continue walk");
     setNavigateFlag(true);
-    navigate("/navigation");
+    navigate(`/navigation/${id}`);
   };
   const [takenImage, setTakenImage] = useState(
     "https://images.unsplash.com/photo-1609951651556-5334e2706168?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"

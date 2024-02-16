@@ -81,7 +81,7 @@ function RouteList() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/profile" element={<MyPage />} />
-            <Route path="/navigation" element={<NavigationPage />} />
+            <Route path="/navigation/:id" element={<NavigationPage />} />
           </Route>
           <Route element={<VerifyLayout />}>
             <Route path="/verification" element={<VerifyPage />} />
@@ -89,8 +89,11 @@ function RouteList() {
             <Route path="/verify-fail" element={<VerifyFailPage />} />
           </Route>
           <Route element={<CheckPhotoLayout />}>
-            <Route path="/check-photo" element={<CheckPhotoPage />} />
-            <Route path="/check-photo-done" element={<CheckPhotoDonePage />} />
+            <Route path="/check-photo/:id" element={<CheckPhotoPage />} />
+            <Route
+              path="/check-photo-done/:id"
+              element={<CheckPhotoDonePage />}
+            />
           </Route>
           <Route
             path="/guide/walk-together"
