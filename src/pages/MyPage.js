@@ -182,6 +182,9 @@ export default function MyPage() {
   const [certification, setCertification] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [data, setData] = useState(null);
+  const [weekTime, setWeekTime] = useState("0분");
+  const [weekLength, setWeekLength] = useState("0km");
+  const [top, setTop] = useState("100%");
   const token = localStorage.getItem("access_token");
 
   const GetUser = async () => {
@@ -192,7 +195,10 @@ export default function MyPage() {
       setName(response.data.name);
       setAccountId(response.data.accountId);
       setProfileImage(response.data.profileImage);
+      setWeekLength(response.data.weekLength);
+      setWeekTime(response.data.weekTime);
       setCertification(response.data.certificated);
+      setTop(response.data.top);
       setData(response.data);
     } catch (error) {
       console.log("empty or error");
@@ -212,22 +218,16 @@ export default function MyPage() {
             }
           />
           <ProfileName>{name} 님</ProfileName>
-          <ProfileBelowName>
-            가치가유 상위 {data && data.top ? data.top : "-"}
-          </ProfileBelowName>
+          <ProfileBelowName>가치가유 상위 {top}</ProfileBelowName>
         </ProfileColumnContainer>
         <ProfileColumnContainer>
           <ProfileStats>
-            <ProfileStatsTitle>이번 주 산책한 거리</ProfileStatsTitle>
-            <ProfileStatsContent>
-              {data ? data.weekLength : "-"}
-            </ProfileStatsContent>
+            <ProfileStatsTitle>총 산책한 거리</ProfileStatsTitle>
+            <ProfileStatsContent>{data ? weekLength : "-"}</ProfileStatsContent>
           </ProfileStats>
           <ProfileStats>
-            <ProfileStatsTitle>이번 주 산책한 시간</ProfileStatsTitle>
-            <ProfileStatsContent>
-              {data ? data.weekTime : "-"}
-            </ProfileStatsContent>
+            <ProfileStatsTitle>총 산책한 시간</ProfileStatsTitle>
+            <ProfileStatsContent>{data ? weekTime : "-"}</ProfileStatsContent>
           </ProfileStats>
         </ProfileColumnContainer>
       </ProfileContainer>
