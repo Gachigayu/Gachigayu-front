@@ -101,7 +101,7 @@ export default function VerifyPage() {
     (async () => {
       const video = videoRef.current;
       const stream = await getDeviceStream({
-        video: { width: 720 },
+        video: { width: 720, facingMode: "environment" },
         audio: false,
       });
       video.srcObject = stream;
