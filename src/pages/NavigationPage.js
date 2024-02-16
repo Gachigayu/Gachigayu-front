@@ -94,6 +94,8 @@ export default function NavigationPage() {
   const id = params.id;
   const { location } = watchLocation();
 
+  const [timmer, setTimmer] = useState(0);
+
   const threshold = 0.01; // 10m
 
   useEffect(() => {
@@ -105,6 +107,13 @@ export default function NavigationPage() {
       pathData[cPosIndex + 1].pos.lat,
       pathData[cPosIndex + 1].pos.lng
     );
+
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setTimmer((prev) => prev + 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    }, []);
 
     if (distance_current_user < threshold) {
       if (cPosIndex === pathData.length - 2) {
@@ -129,7 +138,7 @@ export default function NavigationPage() {
       { lat: location.lat, lng: location.lng },
       ...pathData.slice(cPosIndex + 1).map((p) => p.pos),
     ]);
-  }, [cPosIndex, location.lat, location.lng]);
+  }, [cPosIndex, location.lat, location.lng, pathData, navigateFlag]);
 
   let msgData = null;
   if (!pathData) {
